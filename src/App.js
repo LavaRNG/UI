@@ -27,8 +27,14 @@ class App extends Component{
   getContract = () => {
     return new Promise((resolve, reject) => {
       // var url = 'https://mainnet.infura.io/v3/9a3684130940424c911e0c45ac27f6f5';
-      const eth = new Eth(new HttpProvider('https://rinkeby.infura.io/v3/3d0bbf8a09bb4c41b8bd03ffd7821f6f'));
+      // const eth = new Eth(new HttpProvider('https://rinkeby.infura.io/v3/aB338DB878F7CE6f2B9BDc90dF700ebb0B88A30E'));
+
+      const eth = new Eth(window.web3.currentProvider);
+      // const eth = new Eth(new HttpProvider('https://rinkeby.infura.io/v3/3d0bbf8a09bb4c41b8bd03ffd7821f6f'));
+
       // const eth = new Eth(window.web3.currentProvider);
+
+      let address = "0xaB338DB878F7CE6f2B9BDc90dF700ebb0B88A30E";
 
       let lava = eth.contract(abi, bytecode, { from: this.state.from, gas: 3000000 }).at(address);
 
@@ -76,10 +82,11 @@ class App extends Component{
       });
 
       // setup an instance of that contract
+      let address = "0xaB338DB878F7CE6f2B9BDc90dF700ebb0B88A30E";
       const lava = Lava.at(address);
 
       // use a method that comes with the contract
-      lava.submitRand(value)
+      lava.submitRand(value, {value: unit.toWei(2,'wei')})
       .then((txHash) => {
         console.log(txHash);
         this.waitForTxToBeMined(txHash);
