@@ -99,22 +99,22 @@ class App extends Component{
     // WAY #2 :
     //
 
-    let numHex = unit.toWei(2,'wei');
-    console.log('numHex:', numHex);
-    this.state.lava.submitRand(value, numHex, {
-      address,
-      from: this.state.from,
-      gasLimit: 230000,
-      nonce: Math.floor(Math.random()*100)
-    }, (error, transactionHash) => {
-      console.log(error, transactionHash);
-      console.log(unit.fromWei(numHex, 'ether'));
-      console.log('Paid:', numHex);
-      console.log('Value:', value);
-      // console.log(window.web3.utils.hexToNumber(numHex));
-      // this.setState({transactionHash});
-    });
-    return;
+    // let numHex = unit.toWei(2,'wei');
+    // console.log('numHex:', numHex);
+    // this.state.lava.submitRand(value, numHex, {
+    //   address,
+    //   from: this.state.from,
+    //   gasLimit: 230000,
+    //   nonce: Math.floor(Math.random()*100)
+    // }, (error, transactionHash) => {
+    //   console.log(error, transactionHash);
+    //   console.log(unit.fromWei(numHex, 'ether'));
+    //   console.log('Paid:', numHex);
+    //   console.log('Value:', value);
+    //   // console.log(window.web3.utils.hexToNumber(numHex));
+    //   // this.setState({transactionHash});
+    // });
+    // return;
 
     //
     //
