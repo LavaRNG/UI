@@ -28,21 +28,15 @@ class FormCard extends Component{
         return (
         <div style={{marginTop : "100px"}} />
         )
-      
     }
   }
 
   handleAction(event) {
-    if (this.props.buttonText == "Request"){
-      this.setState({
-        requestSent : true
-      })
-    }
-   // this.props.action(this.state.inputVal);
+   this.props.action(this.state.inputVal);
   }
 
   renderButton() {
-    if (this.props.buttonText == "Request" && this.state.requestSent){
+    if (this.props.buttonText == "Request" && this.props.requestSent){
       return ("")
     } else {
       return (
@@ -60,7 +54,7 @@ class FormCard extends Component{
         <hr className="cardRule"></hr>
         <div id="cardContent" className="column">
           {this.renderInput()}
-          {this.props.buttonText == "Request" && this.state.requestSent && !this.state.requestGot &&
+          {this.props.buttonText == "Request" && this.props.requestSent && !this.props.requestGot &&
                   <div style={{marginTop : "-40px"}}>
                     <h4>Retrieving your random number.</h4>
                     <ClipLoader
@@ -69,6 +63,11 @@ class FormCard extends Component{
                     color={'#123abc'}
                     loading={this.state.loading}
                   />
+                 </div>
+          }
+          {this.props.buttonText == "Request" && this.props.requestGot &&
+                  <div style={{marginTop : "-40px"}}>
+                    <h4>{this.props.randomGot}</h4>
                  </div>
           }
           {this.renderButton()}

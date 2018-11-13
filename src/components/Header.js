@@ -14,7 +14,7 @@ const Header = (props, context) => {
           </div>
       </div>
       <div className="lavaRow" id="headerContent">
-          <h2>Currently connected to {context.network} network.</h2>
+        {/* // <h2>Currently connected to {context.network} network.</h2> */}
       </div>
     </div>
   );

@@ -143,6 +143,10 @@ class App extends Component{
     });
   }
 
+  sendTheNumberToUI() {
+    
+  }
+
   render(){
     return(
       <div className="App">
