@@ -33,14 +33,42 @@ const Body = (props, context) => {
       <div className="lavaRow cardRow" id="codeRow">
         <div className="lavaColumn">
           <h3>Use It Yourself</h3>
-          <p style={{marginTop : "40px"}}>This is a description of the part of the code that belongs below this. There would be some indication of why a user would want to use this code and then more instructions.</p>
+          <p style={{marginTop : "40px"}}>Whether you're building a Dapp that requires RNG, or you're trying to earn ETH by predicting or submitting random numbers, you'll want
+          to automate the connection to the Lava system. Below you'll find examples written in Javascript for interacting with the Lava contracts. </p>
+          
+          
+          <h5 className="margin-top">Get Random Numbers for your Dapp</h5>
+          <p style={{marginTop : "40px"}}>If you're building a Dapp Lava can be used as a reliable rnadom number oracle. To get a random number you'll need to 
+          send ETH to the Lava contract and call the request function. If the correct conditions are met 
+          your number will be broadcasted as an event. Check below for an example of how to to make
+          a request and monitor for the broadcast of the random number.</p>
           <div className="card" id="codeCard">
             <SyntaxHighlighter language='jsx' style={codeStyle}>{codeString}</SyntaxHighlighter>
           </div>
-          <p style={{marginTop : "40px"}}>This is a description of the part of the code that belongs below this. There would be some indication of why a user would want to use this code and then more instructions.</p>
+
+          <h5 className="margin-top">Submit Random Numbers and earn ETH</h5>
+          <p style={{marginTop : "40px"}}>You can earn ETH by submitting random numbers to the
+          Lava system. If you have a good method for RNG (hased pixel values from Lava lamp pohtos...) then
+          you'll probably want to setup an automated system to submit numbers. Numbers should be 
+          submitted as a stream of numbers. The example below shows how you would set up a 
+          number submission stream.</p>
           <div className="card" id="codeCard">
             <SyntaxHighlighter language='jsx' style={codeStyle}>{codeString}</SyntaxHighlighter>
           </div>
+
+
+          <h5 className="margin-top">Predict Random Numbers and Earn ETH</h5>
+          <p style={{marginTop : "40px"}}>Lava is built so that all random numbers provided
+          are broadcasted publically. If you have a good method (Network, algorithm, etc...) for 
+          predicting these numbers than you can earn ETH by monitoring the outputted numbers and 
+          submitting predictions. You would probably do this by monitoring the broadcasted 
+          numbers from the Lava smart contract and running the outputs through your detection 
+          system. Below is an example of monitoring this output and submitting predictions 
+          based on it. </p>
+          <div className="card" id="codeCard">
+            <SyntaxHighlighter language='jsx' style={codeStyle}>{codeString}</SyntaxHighlighter>
+          </div>
+
         </div>
       </div>
 

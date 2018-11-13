@@ -1,6 +1,7 @@
 import React, { Component} from "react";
 import "../App.css";
-import { Input } from 'react-materialize'
+import { Input } from 'react-materialize';
+import ClipLoader from 'react-spinners/BeatLoader';
 
 class FormCard extends Component{
 
@@ -8,7 +9,9 @@ class FormCard extends Component{
     super(props)
     this.state = {
       inputVal: "",
-      outputVal: ""
+      outputVal: "",
+      requestSent : false,
+      requestGot : false
     }
   }
 
@@ -16,20 +19,38 @@ class FormCard extends Component{
     this.setState({...this.state, [name]: event.target.value})
   }
 
-  renderButton() {
+  renderInput() {
     if (this.props.buttonText !== "Request"){
       return (
         <Input label="Enter Number" className="submitForm" onChange={e => this.onChange("inputVal", e) } value={this.state.inputVal} />
       )
     } else {
-      return (
-        <Input label="Your number will appear here." className="submitForm" id="customer" onChange={e => this.onChange("inputVal", e) } value={this.state.outputVal} />
-      )
+        return (
+        <div style={{marginTop : "100px"}} />
+        )
+      
     }
   }
 
   handleAction(event) {
-    this.props.action(this.state.inputVal);
+    if (this.props.buttonText == "Request"){
+      this.setState({
+        requestSent : true
+      })
+    }
+   // this.props.action(this.state.inputVal);
+  }
+
+  renderButton() {
+    if (this.props.buttonText == "Request" && this.state.requestSent){
+      return ("")
+    } else {
+      return (
+        <div id="button" className="lavaCard lavaRow" onClick={this.handleAction.bind(this)}>
+          <h2 id="submitText">{this.props.buttonText}</h2>
+        </div>
+      )
+    }
   }
 
   render(){
@@ -38,10 +59,19 @@ class FormCard extends Component{
         <h4>{this.props.title}</h4>
         <hr className="cardRule"></hr>
         <div id="cardContent" className="column">
+          {this.renderInput()}
+          {this.props.buttonText == "Request" && this.state.requestSent && !this.state.requestGot &&
+                  <div style={{marginTop : "-40px"}}>
+                    <h4>Retrieving your random number.</h4>
+                    <ClipLoader
+                    sizeUnit={"px"}
+                    size={15}
+                    color={'#123abc'}
+                    loading={this.state.loading}
+                  />
+                 </div>
+          }
           {this.renderButton()}
-          <div id="button" className="lavaCard lavaRow" onClick={this.handleAction.bind(this)}>
-            <h2 id="submitText">{this.props.buttonText}</h2>
-          </div>
         </div>
       </div>
     );
