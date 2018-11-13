@@ -136,6 +136,7 @@ class App extends Component{
   }
 
   requestRand = (v) => {
+    this.setState({ requestSent: true });
     this.state.eth.accounts().then((accounts) => {
       const Lava = this.state.contract(abi, bytecode, {
         from: accounts[0],
