@@ -9,9 +9,7 @@ class FormCard extends Component{
     super(props)
     this.state = {
       inputVal: "",
-      outputVal: "",
-      requestSent : false,
-      requestGot : false
+      outputVal: ""
     }
   }
 
@@ -32,6 +30,10 @@ class FormCard extends Component{
   }
 
   handleAction(event) {
+    if (this.props.buttonText === "Request"){
+      this.props.action();
+      return;
+    }
    this.props.action(this.state.inputVal);
   }
 

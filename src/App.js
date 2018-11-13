@@ -15,7 +15,10 @@ class App extends Component{
       lava: null,
       eth: null,
       contract: null,
-      filter: null
+      filter: null,
+      randomGot: null,
+      requestSent: false,
+      requestGot : false
     }
   }
 
@@ -71,6 +74,10 @@ class App extends Component{
     });
   }
 
+  displayLoader = () => {
+    this.setState({ requestSent: true });
+  }
+
   async waitForTxToBeMined(txHash, msg) {
     let txReceipt
     while (!txReceipt) {
@@ -81,6 +88,7 @@ class App extends Component{
       }
     }
     alert(msg);
+    this.setState({requestSent: false, requestGot : true});
   }
 
   submitRand = (value) => {
@@ -138,6 +146,7 @@ class App extends Component{
       .then((txHash) => {
         console.log('Transaction hash:', txHash);
         this.waitForTxToBeMined(txHash, 'Lava successfully returned the random number: ... ' );
+        this.setState({randomGot: 666});
       })
       .catch(console.error)
     });
@@ -152,6 +161,10 @@ class App extends Component{
       <div className="App">
         <Header />
         <FormSection
+          randomGot={this.state.randomGot}
+          requestSent={this.state.requestSent}
+          requestGot={this.state.requestGot}
+          displayLoader={this.displayLoader}
           rander={this.submitRand.bind(this)}
           preder={this.submitPredWindow.bind(this)}
           customer={this.requestRand.bind(this)}
