@@ -50,6 +50,33 @@ class FormCard extends Component{
     }
   }
 
+  showLoader(){
+      if (this.props.buttonText == "Request" && this.props.requestSent) {
+        return (
+          <div style={{marginTop : "-70px"}}>
+              <h4>Retrieving your random number.</h4>
+              <ClipLoader
+              sizeUnit={"px"}
+              size={15}
+              color={'#123abc'}
+              loading={this.state.loading}
+            />
+         </div>
+      )
+    }
+  }
+
+  showNumberGot() {
+    if(this.props.buttonText == "Request" && this.props.requestGot && !this.props.requestSent) {
+      return (
+        <div style={{marginTop : "-120px"}}>
+          <h4>Your number : </h4>
+          <h6>{this.props.randomGot}</h6>
+        </div>
+      )
+    }
+  }
+
   render(){
     return(
       <div id="formCard" className="lavaCard">
@@ -57,22 +84,8 @@ class FormCard extends Component{
         <hr className="cardRule"></hr>
         <div id="cardContent" className="column">
           {this.renderInput()}
-          {this.props.buttonText === "Request" && this.props.requestSent &&
-                  <div style={{marginTop : "-40px"}}>
-                    <h4>Retrieving your random number.</h4>
-                    <ClipLoader
-                    sizeUnit={"px"}
-                    size={15}
-                    color={'#123abc'}
-                    loading={this.state.loading}
-                  />
-                 </div>
-          }
-          {this.props.buttonText === "Request" && this.props.requestGot &&
-                  <div style={{marginTop : "-40px"}}>
-                    <h4>{this.props.randomGot}</h4>
-                 </div>
-          }
+          {this.showLoader()}
+          {this.showNumberGot()}
           {this.renderButton()}
         </div>
       </div>
