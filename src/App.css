@@ -108,6 +108,7 @@ p#howItWorks{
 }
 #headerContent {
   padding-top: 40px;
+  margin-left: -120px;
 
 }
 h1#lavaTitle {
@@ -142,6 +143,17 @@ h5 {
   letter-spacing:0.67px;
   text-align:left;
   font-weight: 400;
+}
+
+h6 {
+  font-family: 'Work Sans', sans-serif;
+  font-size: 28px;
+  color:#1c2c49;
+  letter-spacing:0.67px;
+  text-align: center;
+  font-weight: 400;
+  margin-bottom: 20px;
+
 }
 
 #formSection {

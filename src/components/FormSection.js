@@ -5,6 +5,16 @@ import FormCard from "../components/FormCard.js";
 const FormSection = (props) => {
   return(
     <div id="formSection">
+
+<h3>How it Works</h3>
+      <div className="lavaRow cardRow" id="">
+        <div className="lavaColumn">
+         <p id="howItWorks">Here is a descirption of how Lava works. We've also include some forms here so you can play around with the contracts. In reality it would be 
+          highly impracticle to submit, predict or request numbers using the UI. However, it is connected to the actual 
+          Lava contract and can give you a feel for how Lava works.  </p>
+        </div>
+      </div>
+
       <h3>Submit or Request</h3>
       <div className="lavaRow cardRow" id="">
         <FormCard displayLoader={props.displayLoader} randomGot={null} requestSent={null} requestGot={null} action={props.rander} title={"Submit Number"} buttonText={"Submit"}/>

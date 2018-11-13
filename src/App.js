@@ -3,6 +3,7 @@ import FormSection from "./components/FormSection";
 import EthContract from 'ethjs-contract'; // const EthContract = require('ethjs-contract');
 import Eth from 'ethjs';
 import unit from 'ethjs-unit';
+
 import "./App.css";
 import Header from "./components/Header";
 import Body from "./components/Body";
@@ -24,10 +25,7 @@ class App extends Component{
 
   getContract = () => {
     return new Promise((resolve, reject) => {
-
       const eth = new Eth(window.web3.currentProvider);
-      // const eth = new Eth(new HttpProvider('https://rinkeby.infura.io/v3/3d0bbf8a09bb4c41b8bd03ffd7821f6f'));
-
       const contract = new EthContract(eth);
       this.setState({ eth, contract }, resolve);
     })
