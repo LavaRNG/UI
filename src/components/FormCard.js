@@ -39,7 +39,7 @@ class FormCard extends Component{
   }
 
   renderButton() {
-    if (this.props.buttonText == "Request" && this.props.requestSent){
+    if (this.props.buttonText === "Request" && this.props.requestSent){
       return ("")
     } else {
       return (
@@ -57,7 +57,7 @@ class FormCard extends Component{
         <hr className="cardRule"></hr>
         <div id="cardContent" className="column">
           {this.renderInput()}
-          {this.props.buttonText == "Request" && this.props.requestSent &&
+          {this.props.buttonText === "Request" && this.props.requestSent &&
                   <div style={{marginTop : "-40px"}}>
                     <h4>Retrieving your random number.</h4>
                     <ClipLoader
@@ -68,7 +68,7 @@ class FormCard extends Component{
                   />
                  </div>
           }
-          {this.props.buttonText == "Request" && this.props.requestGot &&
+          {this.props.buttonText === "Request" && this.props.requestGot &&
                   <div style={{marginTop : "-40px"}}>
                     <h4>{this.props.randomGot}</h4>
                  </div>

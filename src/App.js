@@ -16,6 +16,7 @@ class App extends Component{
       eth: null,
       contract: null,
       filter: null,
+      reqFilter: null,
       randomGot: null,
       requestSent: false,
       requestGot : false
@@ -35,13 +36,16 @@ class App extends Component{
 
   async componentDidMount(){
     await this.getContract();
+    this.startRequestListener();
+    this.startRandSubmitListener();
   }
 
   onComponentWillUnmount() {
     this.state.filter.uninstall(); // end our contract event listener
+    this.state.reqFilter.uninstall(); // end our contract event listener
   }
 
-  startEventListener = () => {
+  startRandSubmitListener = () => {
     this.state.eth.accounts().then((accounts) => {
       const Lava = this.state.contract(abi, bytecode, {
         from: accounts[0],
@@ -51,7 +55,7 @@ class App extends Component{
       //
       // Source: https://github.com/ethjs/ethjs-filter/issues/4
       //
-      let filter = lava.receivedRand()
+      let filter = lava.receivedRand();
       this.setState({filter});
       if(!address) throw new Error('no address')
       filter.new({ toBlock: 'latest', address, to: undefined })
@@ -63,13 +67,64 @@ class App extends Component{
         });
       filter.watch((err, result) => {
         //
-        // We suspect that their code is flawed in that it expects the "data" property to be an array, but it's a hex value.
+        // We suspect that ethjs's code is flawed in that it expects the "data" property to be an array, but it's a hex value.
         //
         // console.log("WATCH!");
         // console.log(err);
         // if(err) throw new Error()
         //
-        console.log('Event that just occurred:', result);
+        if (!result) {
+          result = JSON.parse(String(err).split("'")[1])[0];
+        }
+        console.log('Result:', result);
+        // console.log('submitRand event that just occurred:', result, err);
+        alert('You just submitted the random number: ' + String(parseInt(result.data, 16)));
+      });
+    });
+  }
+
+  startRequestListener = () => {
+    this.state.eth.accounts().then((accounts) => {
+      const Lava = this.state.contract(abi, bytecode, {
+        from: accounts[0],
+        gas: 3000000
+      });
+      const lava = Lava.at(address); // setup an instance of that contract
+      //
+      // Source: https://github.com/ethjs/ethjs-filter/issues/4
+      //
+      let reqFilter = lava.requestedRand();
+      this.setState({reqFilter});
+      if(!address) throw new Error('no address')
+      reqFilter.new({ toBlock: 'latest', address, to: undefined })
+        .then((result) => {
+          console.log('Request Filter:', result)
+        })
+        .catch((error) => {
+          throw new Error(error)
+        });
+      reqFilter.watch((err, result) => {
+        //
+        // We suspect that ethjs's code is flawed in that it expects the "data" property to be an array, but it's a hex value.
+        //
+        // console.log("WATCH!");
+        // console.log(err);
+        // if(err) throw new Error()
+        //
+
+        if (!result) {
+          result = JSON.parse(String(err).split("'")[1])[0];
+        }
+        console.log('Result:', result);
+        // console.log('requestRand event that just occurred:', result, err);
+        this.setState({ randomGot: parseInt(result.data, 16), requestSent: false, requestGot: true });
+        alert('Lava successfully returned the random number: ' + String(parseInt(result.data, 16)));
+
+        // if (result && result.to === accounts[0]) {
+        //   this.setState({ randomGot: parseInt(result.data, 16), requestSent: false, requestGot: true })
+        //   alert('Lava successfully returned the random number: ', parseInt(result.data, 16));
+        // }
+
       });
     });
   }
@@ -88,7 +143,6 @@ class App extends Component{
       }
     }
     alert(msg);
-    this.setState({requestSent: false, requestGot : true});
   }
 
   submitRand = (value) => {
@@ -143,18 +197,14 @@ class App extends Component{
         gas: 300000
       });
       const lava = Lava.at(address); // setup an instance of that contract
+
       lava.requestRand({value: unit.toWei(900,'wei')}) // use a method that comes with the contract
       .then((txHash) => {
         console.log('Transaction hash:', txHash);
-        this.waitForTxToBeMined(txHash, 'Lava successfully returned the random number: ... ' );
-        this.setState({randomGot: 666});
+        this.waitForTxToBeMined(txHash, 'Lava will be returning a random number shortly... ' );
       })
       .catch(console.error)
     });
-  }
-
-  sendTheNumberToUI() {
-    
   }
 
   render(){
