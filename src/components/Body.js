@@ -18,9 +18,6 @@ const Body = (props, context) => {
           <h3>Use It Yourself</h3>
           <p style={{marginTop : "40px"}}>Whether you're building a Dapp that requires RNG, or you're trying to earn ETH by predicting or submitting random numbers, you'll want
           to automate the connection to the Lava system. Below you'll find examples written in Javascript for interacting with the Lava contracts. 
-          We've also include some forms here so you can play around with the contracts. In reality it would be 
-          highly impracticle to submit, predict or request numbers using the UI. However, it is connected to the actual 
-          Lava contract and can give you a feel for how Lava works. 
           </p>
           
           <h5 className="margin-top">Setting Up Your Connection To Lava and Helpers</h5>
@@ -34,6 +31,8 @@ const Body = (props, context) => {
             <SyntaxHighlighter language='jsx' style={codeStyle}>{snippets.setup}</SyntaxHighlighter>
           </div>
 
+          <hr></hr>
+
 
           <h5 className="margin-top">Get Random Numbers for your Dapp</h5>
           <p style={{marginTop : "40px"}}>If you're building a Dapp Lava can be used as a reliable rnadom number oracle. To get a random number you'll need to 
@@ -44,7 +43,9 @@ const Body = (props, context) => {
             <SyntaxHighlighter language='jsx' style={codeStyle}>{snippets.requestNumber}</SyntaxHighlighter>
           </div>
 
-          <h5 className="margin-top">Submit Random Numbers and earn ETH</h5>
+          <hr></hr>
+
+          <h5 className="margin-top">Submit Random Numbers and Earn ETH</h5>
           <p style={{marginTop : "40px"}}>You can earn ETH by submitting random numbers to the
           Lava system. If you have a good method for RNG (hased pixel values from Lava lamp pohtos...) then
           you'll probably want to setup an automated system to submit numbers. Numbers should be 
@@ -53,6 +54,8 @@ const Body = (props, context) => {
           <div className="card" id="codeCard">
             <SyntaxHighlighter language='jsx' style={codeStyle}>{snippets.submitRand}</SyntaxHighlighter>
           </div>
+
+          <hr></hr>
 
 
           <h5 className="margin-top">Predict Random Numbers and Earn ETH</h5>
@@ -64,7 +67,7 @@ const Body = (props, context) => {
           system. Below is an example of monitoring this output and submitting predictions 
           based on it. </p>
           <div className="card" id="codeCard">
-            <SyntaxHighlighter language='jsx' style={codeStyle}>{codeString}</SyntaxHighlighter>
+            <SyntaxHighlighter language='jsx' style={codeStyle}>{snippets.predict}</SyntaxHighlighter>
           </div>
 
         </div>

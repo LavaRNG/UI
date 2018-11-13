@@ -92,7 +92,59 @@ module.exports = {
           .catch(console.error)
         });
       }
+    `,
+
+    predict : `
+    //You'll want to collect all the submitted numbers to run through your prediction algorithm.
+    //Here is an example of setting up an event listener to do that
+    startEventListener = () => {
+        eth.accounts().then((accounts) => {
+          const Lava = contract(abi, bytecode, {
+            from: accounts[0],
+            gas: 300000
+          });
+          const lava = Lava.at(address); // setup an instance of that contract
+          let filter = lava.receivedRand()
+          if(!address) throw new Error('no address')
+          filter.new({ toBlock: 'latest', address, to: undefined })
+            .then((result) => {
+              console.log('Filter:', result)
+            })
+            .catch((error) => {
+              throw new Error(error)
+            });
+          filter.watch((err, result) => {
+            console.log('Event that just occurred:', result);
+          });
+        });
+      }
+
+
+    //then to predict a stream of number you could do the following
+    submitPredWindow = (value) => {
+        if (!isNaN(parseInt(value))) {
+          value = parseInt(value);
+        } else {
+          alert('You must enter numerical input!');
+          return;
+        }
+        eth.accounts().then((accounts) => {
+          const Lava = contract(abi, bytecode, {
+            from: accounts[0],
+            gas: 300000
+          });
+          const lava = Lava.at(address); // setup an instance of that contract
+          lava.submitPredWindow([listOfValues], {value: unit.toWei(2,'wei')}) // use a method that comes with the contract
+          .then((txHash) => {
+            console.log('Transaction hash:', txHash);
+            this.waitForTxToBeMined(txHash, 'Successful prediction window submission!');
+          })
+          .catch(console.error)
+        });
+      }
     `
+
+
 
 
 
