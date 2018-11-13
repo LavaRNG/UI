@@ -12,7 +12,6 @@ const Body = (props, context) => {
 
   return(
     <div id="formSection">
-    
       <div className="lavaRow cardRow" id="codeRow">
         <div className="lavaColumn">
           <h3>Use It Yourself</h3>
@@ -69,6 +68,14 @@ const Body = (props, context) => {
           <div className="card" id="codeCard">
             <SyntaxHighlighter language='jsx' style={codeStyle}>{snippets.predict}</SyntaxHighlighter>
           </div>
+
+          <hr></hr>
+
+          <h3>Get Involved</h3>
+          <p style={{marginTop : "40px"}}>
+          The Lava system becomes more effective as the user base grows. Checkout the Lava github <a href="https://github.com/lava-rng">https://github.com/lava-rng </a>
+           for more information and a detailed breakdown of the logic behind Lava. 
+          </p>
 
         </div>
       </div>

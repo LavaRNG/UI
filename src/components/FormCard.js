@@ -53,7 +53,7 @@ class FormCard extends Component{
   showLoader(){
       if (this.props.buttonText == "Request" && this.props.requestSent) {
         return (
-          <div style={{marginTop : "-40px"}}>
+          <div style={{marginTop : "-70px"}}>
               <h4>Retrieving your random number.</h4>
               <ClipLoader
               sizeUnit={"px"}
@@ -69,7 +69,7 @@ class FormCard extends Component{
   showNumberGot() {
     if(this.props.buttonText == "Request" && this.props.requestGot && !this.props.requestSent) {
       return (
-        <div style={{marginTop : "-100px"}}>
+        <div style={{marginTop : "-120px"}}>
           <h4>Your number : </h4>
           <h6>{this.props.randomGot}</h6>
         </div>
