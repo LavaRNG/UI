@@ -75,7 +75,6 @@ class App extends Component{
           result = JSON.parse(String(err).split("'")[1])[0];
         }
         console.log('Result:', result);
-        // console.log('submitRand event that just occurred:', result, err);
         alert('You just submitted the random number: ' + String(parseInt(result.data, 16)));
       });
     });
@@ -85,7 +84,7 @@ class App extends Component{
     this.state.eth.accounts().then((accounts) => {
       const Lava = this.state.contract(abi, bytecode, {
         from: accounts[0],
-        gas: 3000000
+        gas: 300000
       });
       const lava = Lava.at(address); // setup an instance of that contract
       //
@@ -109,20 +108,14 @@ class App extends Component{
         // console.log(err);
         // if(err) throw new Error()
         //
-
-        if (!result) {
-          result = JSON.parse(String(err).split("'")[1])[0];
+        if (this.state.requestSent) {
+          if (!result) {
+            result = JSON.parse(String(err).split("'")[1])[0];
+          }
+          console.log('Result:', result);
+          this.setState({ randomGot: parseInt(result.data, 16), requestSent: false, requestGot: true });
+          alert('Lava successfully returned the random number: ' + String(parseInt(result.data, 16)));
         }
-        console.log('Result:', result);
-        // console.log('requestRand event that just occurred:', result, err);
-        this.setState({ randomGot: parseInt(result.data, 16), requestSent: false, requestGot: true });
-        alert('Lava successfully returned the random number: ' + String(parseInt(result.data, 16)));
-
-        // if (result && result.to === accounts[0]) {
-        //   this.setState({ randomGot: parseInt(result.data, 16), requestSent: false, requestGot: true })
-        //   alert('Lava successfully returned the random number: ', parseInt(result.data, 16));
-        // }
-
       });
     });
   }
@@ -161,7 +154,10 @@ class App extends Component{
         console.log('Transaction hash:', txHash);
         this.waitForTxToBeMined(txHash, 'Successful random number submission!');
       })
-      .catch(console.error)
+      .catch((error) => {
+        alert('Random number submission error/rejection!');
+        console.log(error);
+      })
     });
   }
 
@@ -183,7 +179,10 @@ class App extends Component{
         console.log('Transaction hash:', txHash);
         this.waitForTxToBeMined(txHash, 'Successful prediction window submission!');
       })
-      .catch(console.error)
+      .catch((error) => {
+        alert('Prediction submission error/rejection!');
+        console.log(error);
+      })
     });
   }
 
@@ -192,7 +191,7 @@ class App extends Component{
     this.state.eth.accounts().then((accounts) => {
       const Lava = this.state.contract(abi, bytecode, {
         from: accounts[0],
-        gas: 300000
+        gas: 3000000
       });
       const lava = Lava.at(address); // setup an instance of that contract
 
@@ -201,7 +200,11 @@ class App extends Component{
         console.log('Transaction hash:', txHash);
         this.waitForTxToBeMined(txHash, 'Lava will be returning a random number shortly... ' );
       })
-      .catch(console.error)
+      .catch((error) => {
+        alert('Request error/rejection! (perhaps the gas was too high)');
+        this.setState({ requestSent: false, requestGot: true });
+        console.log(error);
+      })
     });
   }
 

@@ -2,8 +2,7 @@ import React from "react";
 import "../App.css";
 import lamp from "../img/lamp.gif"
 
-const Header = (props, context) => {
-  console.log(context.network);
+const Header = () => {
   return(
     <div id="lavaHeader">
       <div className="lavaRow" id="headerContent">
@@ -12,9 +11,6 @@ const Header = (props, context) => {
               <h1 id="lavaTitle">Lava</h1>
               <p className="subTitle">Decentralized random number generation on Ethereum.</p>
           </div>
-      </div>
-      <div className="lavaRow" id="headerContent">
-        {/* // <h2>Currently connected to {context.network} network.</h2> */}
       </div>
     </div>
   );
