@@ -7,7 +7,7 @@ import unit from 'ethjs-unit';
 import "./App.css";
 import Header from "./components/Header";
 import Body from "./components/Body";
-import { bytecode, address, abi } from "./assets/Contract";
+import { bytecode_main, bytecode_rinkeby, address_main, address_rinkeby, abi_main, abi_rinkeby } from "./assets/Contract";
 
 class App extends Component{
   constructor(props){
@@ -20,7 +20,11 @@ class App extends Component{
       reqFilter: null,
       randomGot: null,
       requestSent: false,
-      requestGot : false
+      requestGot : false,
+      abi: null,
+      address: null,
+      bytecode: null,
+      network: null
     }
   }
 
@@ -32,68 +36,101 @@ class App extends Component{
     })
   }
 
+  getNetwork = () => {
+    return new Promise((resolve, reject) => {
+      let the_abi, the_address, the_bytecode;
+      window.web3.version.getNetwork((err, netId) => {
+        switch (netId) {
+          case "1":
+            alert('Welcome to Lava on Mainnet!');
+            the_abi = abi_main;
+            the_address = address_main;
+            the_bytecode = bytecode_main;
+            break;
+          case "4":
+            alert('Welcome to Lava on Rinkeby!');
+            the_abi = abi_rinkeby;
+            the_address = address_rinkeby;
+            the_bytecode = bytecode_rinkeby;
+            break;
+          default:
+            alert("You're on an unsupported/unknown network. Please switch to Mainnet (1) or Rinkeby (4) to play with Lava.");
+        }
+        this.setState({abi: the_abi, address: the_address, bytecode: the_bytecode, network: netId}, resolve);
+      })
+    })
+  }
+
   async componentDidMount(){
     await this.getContract();
+    await this.getNetwork();
     this.startRequestListener();
-    this.startRandSubmitListener();
+    /* this.startRandSubmitListener(); */
+
+    console.log('componentDidMount 1: ', this.state.network);
   }
 
-  onComponentWillUnmount() {
-    this.state.filter.uninstall(); // end our contract event listener
+  componentWillUnmount() {
     this.state.reqFilter.uninstall(); // end our contract event listener
+    /* this.state.filter.uninstall(); */
   }
 
-  startRandSubmitListener = () => {
-    this.state.eth.accounts().then((accounts) => {
-      const Lava = this.state.contract(abi, bytecode, {
-        from: accounts[0],
-        gas: 300000
-      });
-      const lava = Lava.at(address); // setup an instance of that contract
-      //
-      // Source: https://github.com/ethjs/ethjs-filter/issues/4
-      //
-      let filter = lava.receivedRand();
-      this.setState({filter});
-      if(!address) throw new Error('no address')
-      filter.new({ toBlock: 'latest', address, to: undefined })
-        .then((result) => {
-          console.log('Filter:', result)
-        })
-        .catch((error) => {
-          throw new Error(error)
-        });
-      filter.watch((err, result) => {
-        //
-        // We suspect that ethjs's code is flawed in that it expects the "data" property to be an array, but it's a hex value.
-        //
-        // console.log("WATCH!");
-        // console.log(err);
-        // if(err) throw new Error()
-        //
-        if (!result) {
-          result = JSON.parse(String(err).split("'")[1])[0];
-        }
-        console.log('Result:', result);
-        alert('You just submitted the random number: ' + String(parseInt(result.data, 16)));
-      });
-    });
-  }
+  /*
+  The following is a listener for random number submissions.
+  Our dapp doesn't use it, but yours may!
+  Take note of the associated code in componentDidMount() and componentWillUnmount().
+  */
+  // startRandSubmitListener = () => {
+  //   this.state.eth.accounts().then((accounts) => {
+  //     const Lava = this.state.contract(this.state.abi, this.state.bytecode, {
+  //       from: accounts[0],
+  //       gas: 300000
+  //     });
+  //     const lava = Lava.at(this.state.address); // setup an instance of that contract
+  //     //
+  //     // Source: https://github.com/ethjs/ethjs-filter/issues/4
+  //     //
+  //     let filter = lava.receivedRand();
+  //     this.setState({filter});
+  //     if(!this.state.address) throw new Error('no address')
+  //     filter.new({ toBlock: 'latest', address: this.state.address, to: undefined })
+  //       .then((result) => {
+  //         console.log('Filter:', result)
+  //       })
+  //       .catch((error) => {
+  //         throw new Error(error)
+  //       });
+  //     filter.watch((err, result) => {
+  //       //
+  //       // We suspect that ethjs's code is flawed in that it expects the "data" property to be an array, but it's a hex value.
+  //       //
+  //       // console.log("WATCH!");
+  //       // console.log(err);
+  //       // if(err) throw new Error()
+  //       //
+  //       if (!result) {
+  //         result = JSON.parse(String(err).split("'")[1])[0];
+  //       }
+  //       console.log('Result:', result);
+  //       alert('You just submitted the random number: ' + String(parseInt(result.data, 16)));
+  //     });
+  //   });
+  // }
 
   startRequestListener = () => {
     this.state.eth.accounts().then((accounts) => {
-      const Lava = this.state.contract(abi, bytecode, {
+      const Lava = this.state.contract(this.state.abi, this.state.bytecode, {
         from: accounts[0],
         gas: 300000
       });
-      const lava = Lava.at(address); // setup an instance of that contract
+      const lava = Lava.at(this.state.address); // setup an instance of that contract
       //
       // Source: https://github.com/ethjs/ethjs-filter/issues/4
       //
       let reqFilter = lava.requestedRand();
       this.setState({reqFilter});
-      if(!address) throw new Error('no address')
-      reqFilter.new({ toBlock: 'latest', address, to: undefined })
+      if(!this.state.address) throw new Error('no address')
+      reqFilter.new({ toBlock: 'latest', address: this.state.address, to: undefined })
         .then((result) => {
           console.log('Request Filter:', result)
         })
@@ -144,11 +181,11 @@ class App extends Component{
       return;
     }
     this.state.eth.accounts().then((accounts) => {
-      const Lava = this.state.contract(abi, bytecode, {
+      const Lava = this.state.contract(this.state.abi, this.state.bytecode, {
         from: accounts[0],
         gas: 300000
       });
-      const lava = Lava.at(address); // setup an instance of that contract
+      const lava = Lava.at(this.state.address); // setup an instance of that contract
       lava.submitRand(value, {value: unit.toWei(2,'wei')}) // use a method that comes with the contract
       .then((txHash) => {
         console.log('Transaction hash:', txHash);
@@ -169,11 +206,11 @@ class App extends Component{
       return;
     }
     this.state.eth.accounts().then((accounts) => {
-      const Lava = this.state.contract(abi, bytecode, {
+      const Lava = this.state.contract(this.state.abi, this.state.bytecode, {
         from: accounts[0],
         gas: 300000
       });
-      const lava = Lava.at(address); // setup an instance of that contract
+      const lava = Lava.at(this.state.address); // setup an instance of that contract
       lava.submitPredWindow([value], {value: unit.toWei(2,'wei')}) // use a method that comes with the contract
       .then((txHash) => {
         console.log('Transaction hash:', txHash);
@@ -189,11 +226,11 @@ class App extends Component{
   requestRand = (v) => {
     this.setState({ requestSent: true });
     this.state.eth.accounts().then((accounts) => {
-      const Lava = this.state.contract(abi, bytecode, {
+      const Lava = this.state.contract(this.state.abi, this.state.bytecode, {
         from: accounts[0],
         gas: 3000000
       });
-      const lava = Lava.at(address); // setup an instance of that contract
+      const lava = Lava.at(this.state.address); // setup an instance of that contract
 
       lava.requestRand({value: unit.toWei(900,'wei')}) // use a method that comes with the contract
       .then((txHash) => {
