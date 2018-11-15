@@ -15,7 +15,12 @@ const FormSection = (props) => {
         </div>
       </div>
 
-      <h3>Submit or Request</h3>
+      <h3>Try It Out</h3>
+      <p style={{marginTop : "40px"}}>We built a UI so you can try out Lava with some buttons. In reality it would be 
+          highly impracticle to submit, predict or request numbers using the UI. However, it is connected to the actual 
+          Lava contract and can give you a feel for how Lava works. We recommend you switch to Rinkeby so that you can test out 
+      the funcitons for free. Try submitting, predicting, and requesting numbers.
+          </p>
       <div className="lavaRow cardRow" id="">
         <FormCard displayLoader={props.displayLoader} randomGot={null} requestSent={null} requestGot={null} action={props.rander} title={"Submit Number"} buttonText={"Submit"}/>
         <FormCard displayLoader={props.displayLoader} randomGot={null} requestSent={null} requestGot={null} action={props.preder} title={"Predict Number"} buttonText={"Predict"}/>

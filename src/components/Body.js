@@ -37,7 +37,7 @@ const Body = (props, context) => {
           <p style={{marginTop : "40px"}}>If you're building a Dapp Lava can be used as a reliable rnadom number oracle. To get a random number you'll need to
           send ETH to the Lava contract and call the request function. If the correct conditions are met
           your number will be broadcasted as an event. Check below for an example of how to to make
-          a request and monitor for the broadcast of the random number.</p>
+          a request and monitor for the broadcast of the random number. </p>
           <div className="card" id="codeCard">
             <SyntaxHighlighter language='jsx' style={codeStyle}>{snippets.requestNumber}</SyntaxHighlighter>
           </div>

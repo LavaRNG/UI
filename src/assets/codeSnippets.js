@@ -68,6 +68,34 @@ module.exports = {
           .catch(console.error)
         });
       }
+
+      //Here is an example event listener for the request function. This is
+      //how you would listen for the requested numbers that get broadcasted. 
+      startRequestListener = () => {
+        eth.accounts().then((accounts) => {
+          const Lava = contract(abi, bytecode, {
+            from: accounts[0],
+            gas: 300000
+          });
+          const lava = Lava.at(address); // setup an instance of that contract
+          let reqFilter = lava.requestedRand();
+          if(!address) throw new Error('no address')
+          reqFilter.new({ toBlock: 'latest', address, to: undefined })
+            .then((result) => {
+              //do something with the result of the new listener
+            })
+            .catch((error) => {  //check for errors setting up listener
+              throw new Error(error)
+            });
+          reqFilter.watch((err, result) => {
+              console.log('Result:', result);
+              const newNumber = parseInt(result.data, 16);
+              alert('Lava successfully returned the random number: ' + String(parseInt(result.data, 16)));
+          });
+        });
+      }
+
+
     `,
 
     submitRand : `
