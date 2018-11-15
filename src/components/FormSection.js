@@ -34,13 +34,15 @@ const FormSection = (props) => {
               <li>
                 Randers and preders can submit random numbers and predictions, respectively, at any time, but each may be entitled to payouts only when a customer places an order. Cases:
                 <ol>
-                  <i>The last submitted random number DOES NOT match a prediction.</i> Thus, the <i>L</i> most recent randers are entitled to <i>1/(1+i)^2</i> of <i>C</i>, where <i>i</i> ranges from <i>1, 2, ..., L</i>. The most recent rander (the one who actually submitted the emitted random number) receives an additional <i>C/4</i>. Excess customer payment not disbursed to randers (namely the amount <i>L - ∑^L_i N/(1+i)^2</i>) contributes to a pot of ether. Preders lose their wagers.
-                </ol>
-                <ol>
-                  <i>The last submitted random number DOES match a prediction.</i> Thus, all preders who submitted a prediction that matches the random number sent to the customer split <i>C</i> and receive their wager back in full. Furthermore, the first preder to submit the correct guess gets the ether pot. Note that there is nothing preventing any preder from "investing" in a particular value for a random number multiple times over using the same or different public addresses.
-                </ol>
-                <ol>
-                  In both cases, the customer pays <i>C</i>, pays gas, and receives the last submitted random number.
+                  <li>
+                    <i>The last submitted random number DOES NOT match a prediction.</i> Thus, the <i>L</i> most recent randers are entitled to <i>1/(1+i)^2</i> of <i>C</i>, where <i>i</i> ranges from <i>1, 2, ..., L</i>. The most recent rander (the one who actually submitted the emitted random number) receives an additional <i>C/4</i>. Excess customer payment not disbursed to randers (namely the amount <i>L - ∑^L_i N/(1+i)^2</i>) contributes to a pot of ether. Preders lose their wagers.
+                  </li>
+                  <li>
+                    <i>The last submitted random number DOES match a prediction.</i> Thus, all preders who submitted a prediction that matches the random number sent to the customer split <i>C</i> and receive their wager back in full. Furthermore, the first preder to submit the correct guess gets the ether pot. Note that there is nothing preventing any preder from "investing" in a particular value for a random number multiple times over using the same or different public addresses.
+                  </li>
+                  <li>
+                    In both cases, the customer pays <i>C</i>, pays gas, and receives the last submitted random number.
+                  </li>
                 </ol>
               </li>
             </ol>
