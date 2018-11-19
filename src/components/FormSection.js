@@ -8,7 +8,7 @@ const FormSection = (props) => {
           <h3>Decntralized Random Number Oracle</h3>
       <p style={{marginTop : "20px", marginBottom: "-20px"}}>
           Lava is a system that aims to generate random numbers in a secure, decentralized fashion. Lava is built on top of 
-          Ethereum and can be used as a RNG trustworthy oracle within the network. 
+          Ethereum and can be used as a trustworthy RNG oracle within the network. 
       </p>
 
       <div className="lavaRow cardRow" id="">
