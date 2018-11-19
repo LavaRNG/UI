@@ -87,9 +87,6 @@ class App extends Component{
   //       gas: 300000
   //     });
   //     const lava = Lava.at(this.state.address); // setup an instance of that contract
-  //     //
-  //     // Source: https://github.com/ethjs/ethjs-filter/issues/4
-  //     //
   //     let filter = lava.receivedRand();
   //     this.setState({filter});
   //     if(!this.state.address) throw new Error('no address')
@@ -101,13 +98,6 @@ class App extends Component{
   //         throw new Error(error)
   //       });
   //     filter.watch((err, result) => {
-  //       //
-  //       // We suspect that ethjs's code is flawed in that it expects the "data" property to be an array, but it's a hex value.
-  //       //
-  //       // console.log("WATCH!");
-  //       // console.log(err);
-  //       // if(err) throw new Error()
-  //       //
   //       if (!result) {
   //         result = JSON.parse(String(err).split("'")[1])[0];
   //       }
